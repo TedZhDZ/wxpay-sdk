@@ -4,14 +4,12 @@ import java.io.InputStream;
 
 public abstract class WXPayConfig {
 
-
-
     /**
      * 获取 App ID
      *
      * @return App ID
      */
-    abstract String getAppID();
+	protected abstract String getAppID();
 
 
     /**
@@ -19,7 +17,7 @@ public abstract class WXPayConfig {
      *
      * @return Mch ID
      */
-    abstract String getMchID();
+	protected abstract String getMchID();
 
 
     /**
@@ -27,7 +25,7 @@ public abstract class WXPayConfig {
      *
      * @return API密钥
      */
-    abstract String getKey();
+	protected abstract String getKey();
 
 
     /**
@@ -35,7 +33,7 @@ public abstract class WXPayConfig {
      *
      * @return 商户证书内容
      */
-    abstract InputStream getCertStream();
+	protected abstract InputStream getCertStream();
 
     /**
      * HTTP(S) 连接超时时间，单位毫秒
@@ -59,7 +57,7 @@ public abstract class WXPayConfig {
      * 获取WXPayDomain, 用于多域名容灾自动切换
      * @return
      */
-    abstract IWXPayDomain getWXPayDomain();
+    protected abstract IWXPayDomain getWXPayDomain();
 
     /**
      * 是否自动上报。
