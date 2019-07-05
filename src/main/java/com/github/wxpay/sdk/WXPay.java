@@ -5,10 +5,17 @@ import com.github.wxpay.sdk.WXPayConstants.SignType;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 向微信服务端的请求会自动加上sign<br>
+ * 微信返回的数据会自动校验sign<br>
+ * 但是像APP支付所需要用到的二次签名，则需要开发者自己签名
+ * @author ZhDZ
+ *
+ */
 public class WXPay {
 
     private WXPayConfig config;
-    private SignType signType;
+    //private SignType signType;
     private boolean autoReport;
     private boolean useSandbox;
     private String notifyUrl;
@@ -40,16 +47,16 @@ public class WXPay {
         this.notifyUrl = notifyUrl;
         this.autoReport = autoReport;
         this.useSandbox = useSandbox;
-        if (useSandbox) {
-            this.signType = SignType.MD5; // 沙箱环境
-        }
-        else {
-            this.signType = SignType.HMACSHA256;
-        }
+//        if (useSandbox) {
+//            this.signType = SignType.MD5; // 沙箱环境
+//        }
+//        else {
+//            this.signType = SignType.HMACSHA256;
+//        }
         this.wxPayRequest = new WXPayRequest(config);
     }
 
-    private void checkWXPayConfig() throws Exception {
+	private void checkWXPayConfig() throws Exception {
         if (this.config == null) {
             throw new Exception("config is null");
         }
@@ -72,7 +79,10 @@ public class WXPay {
         if (this.config.getHttpReadTimeoutMs() < 10) {
             throw new Exception("http read timeout is too small");
         }
-
+        
+        if(this.config.getSignType()==null) {
+        	throw new Exception("SignType is null");
+        }
     }
 
     /**
@@ -87,13 +97,13 @@ public class WXPay {
         reqData.put("appid", config.getAppID());
         reqData.put("mch_id", config.getMchID());
         reqData.put("nonce_str", WXPayUtil.generateNonceStr());
-        if (SignType.MD5.equals(this.signType)) {
+        if (SignType.MD5.equals(config.getSignType())) {
             reqData.put("sign_type", WXPayConstants.MD5);
         }
-        else if (SignType.HMACSHA256.equals(this.signType)) {
+        else if (SignType.HMACSHA256.equals(config.getSignType())) {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
-        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), config.getSignType()));
         return reqData;
     }
 
@@ -106,7 +116,7 @@ public class WXPay {
      */
     public boolean isResponseSignatureValid(Map<String, String> reqData) throws Exception {
         // 返回数据的签名方式和请求中给定的签名方式是一致的
-        return WXPayUtil.isSignatureValid(reqData, this.config.getKey(), this.signType);
+        return WXPayUtil.isSignatureValid(reqData, this.config.getKey(), config.getSignType());
     }
 
     /**
@@ -330,7 +340,7 @@ public class WXPay {
 
 
     /**
-     * 作用：统一下单<br>
+     * 作用：统一下单，会自动完成签名<br>
      * 场景：公共号支付、扫码支付、APP支付
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
@@ -342,7 +352,7 @@ public class WXPay {
 
 
     /**
-     * 作用：统一下单<br>
+     * 作用：统一下单，会自动完成签名<br>
      * 场景：公共号支付、扫码支付、APP支付
      * @param reqData 向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒

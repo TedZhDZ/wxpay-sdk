@@ -3,6 +3,11 @@
 
 对[微信支付开发者文档](https://pay.weixin.qq.com/wiki/doc/api/index.html)中给出的API进行了封装。
 
+#update logs
+2019.07.05:
+* 更新WXPayConfig，增加getSignType()方法
+* 所有用到签名的方法都必须指定SignType
+
 com.github.wxpay.sdk.WXPay类下提供了对应的方法：
 
 |方法名 | 说明 |

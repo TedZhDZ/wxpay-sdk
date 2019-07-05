@@ -2,6 +2,8 @@ package com.github.wxpay.sdk;
 
 import java.io.InputStream;
 
+import com.github.wxpay.sdk.WXPayConstants.SignType;
+
 public abstract class WXPayConfig {
 
     /**
@@ -97,5 +99,11 @@ public abstract class WXPayConfig {
     public int getReportBatchSize() {
         return 10;
     }
+    
+    /**
+     * 获取签名类型
+     * @return
+     */
+    public abstract SignType getSignType();
 
 }

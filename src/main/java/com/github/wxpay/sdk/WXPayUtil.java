@@ -21,7 +21,11 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.*;
 
-
+/**
+ * 注释掉部分不带SignType的签名和签名验证方法
+ * @author ZhDZ
+ * @Date 2019年7月5日 下午6:29:45
+ */
 public class WXPayUtil {
 
     private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -109,9 +113,9 @@ public class WXPayUtil {
      * @param key API密钥
      * @return 含有sign字段的XML
      */
-    public static String generateSignedXml(final Map<String, String> data, String key) throws Exception {
-        return generateSignedXml(data, key, SignType.MD5);
-    }
+//    public static String generateSignedXml(final Map<String, String> data, String key) throws Exception {
+//        return generateSignedXml(data, key, SignType.MD5);
+//    }
 
     /**
      * 生成带有 sign 的 XML 格式字符串
@@ -136,14 +140,14 @@ public class WXPayUtil {
      * @return 签名是否正确
      * @throws Exception
      */
-    public static boolean isSignatureValid(String xmlStr, String key) throws Exception {
-        Map<String, String> data = xmlToMap(xmlStr);
-        if (!data.containsKey(WXPayConstants.FIELD_SIGN) ) {
-            return false;
-        }
-        String sign = data.get(WXPayConstants.FIELD_SIGN);
-        return generateSignature(data, key).equals(sign);
-    }
+//    public static boolean isSignatureValid(String xmlStr, String key) throws Exception {
+//        Map<String, String> data = xmlToMap(xmlStr);
+//        if (!data.containsKey(WXPayConstants.FIELD_SIGN) ) {
+//            return false;
+//        }
+//        String sign = data.get(WXPayConstants.FIELD_SIGN);
+//        return generateSignature(data, key).equals(sign);
+//    }
 
     /**
      * 判断签名是否正确，必须包含sign字段，否则返回false。使用MD5签名。
@@ -153,9 +157,9 @@ public class WXPayUtil {
      * @return 签名是否正确
      * @throws Exception
      */
-    public static boolean isSignatureValid(Map<String, String> data, String key) throws Exception {
-        return isSignatureValid(data, key, SignType.MD5);
-    }
+//    public static boolean isSignatureValid(Map<String, String> data, String key) throws Exception {
+//        return isSignatureValid(data, key, SignType.MD5);
+//    }
 
     /**
      * 判断签名是否正确，必须包含sign字段，否则返回false。
@@ -181,9 +185,9 @@ public class WXPayUtil {
      * @param key API密钥
      * @return 签名
      */
-    public static String generateSignature(final Map<String, String> data, String key) throws Exception {
-        return generateSignature(data, key, SignType.MD5);
-    }
+//    public static String generateSignature(final Map<String, String> data, String key) throws Exception {
+//        return generateSignature(data, key, SignType.MD5);
+//    }
 
     /**
      * 生成签名. 注意，若含有sign_type字段，必须和signType参数保持一致。
