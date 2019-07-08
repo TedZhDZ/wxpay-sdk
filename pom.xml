@@ -6,7 +6,7 @@
 
 	<groupId>com.github.tedzhdz</groupId>
 	<artifactId>wxpay-sdk</artifactId>
-	<version>3.0.9</version>
+	<version>3.0.11</version>
 	<name>wxpay-sdk</name>
 	<description>wxpay sdk</description>
 	<url>https://github.com/TedZhDZ/wxpay-sdk.git</url>
